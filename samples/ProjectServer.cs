@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Graph.Community.Samples
 {
-	public static class ChangeLog
+	public static class ProjectServer
 	{
 		public static async Task Run()
 		{
@@ -19,23 +19,22 @@ namespace Graph.Community.Samples
 			//
 			/////////////////////////////
 
-			var sharepointDomain = "demo.sharepoint.com";
-			var siteCollectionPath = "/sites/GraphCommunityDemo";
+            var sharepointDomain = "m365x289932.sharepoint.com";
+            var siteCollectionPath = "/sites/pwa";
 
-			/////////////////
-			//
-			// Configuration
-			//
-			/////////////////
+            /////////////////
+            //
+            // Configuration
+            //
+            /////////////////
 
-			AzureAdOptions azureAdOptions = new AzureAdOptions();
+            AzureAdOptions azureAdOptions = new AzureAdOptions();
 
 			var settingsFilename = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "appsettings.json");
 			var builder = new ConfigurationBuilder()
 													.AddJsonFile(settingsFilename, optional: false)
 													.AddUserSecrets<Program>();
-
-            var config = builder.Build();
+			var config = builder.Build();
 			config.Bind("AzureAd", azureAdOptions);
 
 			////////////////////////////
@@ -64,7 +63,6 @@ namespace Graph.Community.Samples
 			{
 				GraphServiceClient graphServiceClient = new GraphServiceClient(ap, hp);
 
-
 				////////////////////////////
 				//
 				// Setup is complete, run the sample
@@ -72,36 +70,13 @@ namespace Graph.Community.Samples
 				////////////////////////////
 
 				var WebUrl = $"https://{sharepointDomain}{siteCollectionPath}";
-
-				var web = await graphServiceClient
-													.SharePointAPI(WebUrl)
-													.Web
-													.Request()
-													.GetAsync();
-
-				var changeToken = web.CurrentChangeToken;
-				Console.WriteLine($"current change token: {changeToken.StringValue}");
-
-				Console.WriteLine($"Make an update to the site {WebUrl}");
-				Console.WriteLine("Press enter to continue");
-				Console.ReadLine();
-
-				var qry = new ChangeQuery(true, true);
-				qry.ChangeTokenStart = changeToken;
-
-				var changes = await graphServiceClient
-															.SharePointAPI(WebUrl)
-															.Web
-															.Request()
-															.GetChangesAsync(qry);
-
-				Console.WriteLine(changes.Count);
-
-				foreach (var item in changes)
-				{
-					Console.WriteLine($"{item.ChangeType}");
-				}
-
+                
+				var assignments = await graphServiceClient
+																		.ProjectServerAPI(WebUrl)
+																		.Assignments
+																		.Request()
+																		.GetAsync();
+               
 				Console.WriteLine("Press enter to show log");
 				Console.ReadLine();
 				Console.WriteLine();

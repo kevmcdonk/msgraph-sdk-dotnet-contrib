@@ -28,13 +28,13 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Graph.Community" Version="1.17.2-preview2" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Include="appSettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\src\Graph.Community.csproj" />
 	</ItemGroup>
 
 </Project>
