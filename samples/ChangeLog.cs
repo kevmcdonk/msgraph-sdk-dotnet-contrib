@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
 using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
@@ -19,7 +19,7 @@ namespace Graph.Community.Samples
 			//
 			/////////////////////////////
 
-			var sharepointDomain = "demo.sharepoint.com";
+			var sharepointDomain = "m365x289932.sharepoint.com";
 			var siteCollectionPath = "/sites/GraphCommunityDemo";
 
 			/////////////////
